@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import { FaPercent } from "react-icons/fa6";
@@ -58,7 +59,8 @@ const Selectdata = ({ item }: SelectdataProps) => {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {sortedData.map((up) => (
-          <div className="rounded-xl bg-white p-4" key={up.id}>
+             <Link href={`/details/${up.id}`} key={up.id}>
+          <div className="rounded-xl bg-white p-4">
             <div className="flex items-center gap-4">
               <div className="rounded-xl bg-gray-100 p-2">
                 <h2 className="text-[30px]">{up.image ?? up.categoryIcon}</h2>
@@ -105,6 +107,7 @@ const Selectdata = ({ item }: SelectdataProps) => {
               )}
             </div>
           </div>
+             </Link>
         ))}
       </div>
     </div>

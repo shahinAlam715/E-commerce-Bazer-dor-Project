@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import { BiSolidUpArrow } from "react-icons/bi";
 import { FaPercent } from "react-icons/fa6";
 
@@ -22,6 +24,10 @@ const Price_increase = async () => {
 
   const filterIncresedata = data.filter((item) => item.change.dir === "up");
 
+  if (!filterIncresedata) {
+    notFound();
+  }
+
   return (
     <div className="container mx-auto p-2 my-5">
       <h2 className="flex items-center text-2xl font-bold my-5">
@@ -32,39 +38,41 @@ const Price_increase = async () => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {filterIncresedata.slice(0, 6).map((up) => (
-          <div className="bg-white p-4 rounded-xl" key={up.id}>
-            <div className="flex gap-4 items-center">
-              <div className="bg-gray-100 p-2 rounded-xl">
-                <h2 className="text-[30px]">{up.image}</h2>
+          <Link href={`/details/${up.id}`} key={up.id}>
+            <div className="bg-white p-4 rounded-xl">
+              <div className="flex gap-4 items-center">
+                <div className="bg-gray-100 p-2 rounded-xl">
+                  <h2 className="text-[30px]">{up.image}</h2>
+                </div>
+                <div className="">
+                  <h2 className="text-2xl">{up.nameBn}</h2>
+                  <p className="text-xl">প্রতি কেজি</p>
+                </div>
               </div>
-              <div className="">
-                <h2 className="text-2xl">{up.nameBn}</h2>
-                <p className="text-xl">প্রতি কেজি</p>
-              </div>
-            </div>
-            <div className="mt-5 flex justify-between">
-              <div className="">
-                <h2>আজকের দাম</h2>
-                <h2 className="">
-                  {up.today.toLocaleString("bn-BD")}
-                <span className="mx-2">টাকা</span>
-                </h2>
-              </div>
-              <div className="flex items-center text-red-500">
-                <span className="text-[15px] mx-2">
-                  <BiSolidUpArrow />
-                </span>
-                <h3 className="flex items-center">
-                  {up.change.pct.toLocaleString("bn-BD")}
-                  <span className="mx-2">
-                    <i>
-                      <FaPercent />
-                    </i>
+              <div className="mt-5 flex justify-between">
+                <div className="">
+                  <h2>আজকের দাম</h2>
+                  <h2 className="">
+                    {up.today.toLocaleString("bn-BD")}
+                    <span className="mx-2">টাকা</span>
+                  </h2>
+                </div>
+                <div className="flex items-center text-red-500">
+                  <span className="text-[15px] mx-2">
+                    <BiSolidUpArrow />
                   </span>
-                </h3>
+                  <h3 className="flex items-center">
+                    {up.change.pct.toLocaleString("bn-BD")}
+                    <span className="mx-2">
+                      <i>
+                        <FaPercent />
+                      </i>
+                    </span>
+                  </h3>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

@@ -1,4 +1,6 @@
-import { BiSolidDownArrow} from "react-icons/bi";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { BiSolidDownArrow } from "react-icons/bi";
 import { FaPercent } from "react-icons/fa6";
 
 interface Marqeeprops {
@@ -14,62 +16,67 @@ interface Marqeeprops {
   };
 }
 
-const Price_decrease = async() => {
-
-     const res = await fetch(
+const Price_decrease = async () => {
+  const res = await fetch(
     "https://api.api-store.workers.dev/api/bazardor/products",
   );
   const data: Marqeeprops[] = await res.json();
 
-  const filterIncresedata = data.filter((item) => item.change.dir === "down");
+  const filterDecresedata = data.filter((item) => item.change.dir === "down");
 
-    return (
-         <div className="container mx-auto p-2 my-5">
+  if (!filterDecresedata) {
+    notFound();
+  }
+
+  return (
+    <div className="container mx-auto p-2 my-5">
       <h2 className="flex items-center text-2xl font-bold my-5">
         <span className="text-[15px] mx-2 text-green-500">
           <BiSolidDownArrow />
         </span>
-       আজ দাম কমেছে
+        আজ দাম কমেছে
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {filterIncresedata.slice(0, 6).map((up) => (
-          <div className="bg-white p-4 rounded-xl" key={up.id}>
-            <div className="flex gap-4 items-center">
-              <div className="bg-gray-100 p-2 rounded-xl">
-                <h2 className="text-[30px]">{up.image}</h2>
+        {filterDecresedata.slice(0, 6).map((up) => (
+          <Link href={`/details/${up.id}`} key={up.id}>
+            <div className="bg-white p-4 rounded-xl">
+              <div className="flex gap-4 items-center">
+                <div className="bg-gray-100 p-2 rounded-xl">
+                  <h2 className="text-[30px]">{up.image}</h2>
+                </div>
+                <div className="">
+                  <h2 className="text-2xl">{up.nameBn}</h2>
+                  <p className="text-xl">প্রতি কেজি</p>
+                </div>
               </div>
-              <div className="">
-                <h2 className="text-2xl">{up.nameBn}</h2>
-                <p className="text-xl">প্রতি কেজি</p>
-              </div>
-            </div>
-            <div className="mt-5 flex justify-between">
-              <div className="">
-                <h2>আজকের দাম</h2>
-                <h2 className="">
-                  {up.today.toLocaleString("bn-BD")}
-                <span className="mx-2">টাকা</span>
-                </h2>
-              </div>
-              <div className="flex items-center text-green-500">
-                <span className="text-[15px] mx-2">
-                  <BiSolidDownArrow />
-                </span>
-                <h3 className="flex items-center">
-                  {up.change.pct.toLocaleString("bn-BD")}
-                  <span className="mx-2">
-                    <i>
-                      <FaPercent />
-                    </i>
+              <div className="mt-5 flex justify-between">
+                <div className="">
+                  <h2>আজকের দাম</h2>
+                  <h2 className="">
+                    {up.today.toLocaleString("bn-BD")}
+                    <span className="mx-2">টাকা</span>
+                  </h2>
+                </div>
+                <div className="flex items-center text-green-500">
+                  <span className="text-[15px] mx-2">
+                    <BiSolidDownArrow />
                   </span>
-                </h3>
+                  <h3 className="flex items-center">
+                    {up.change.pct.toLocaleString("bn-BD")}
+                    <span className="mx-2">
+                      <i>
+                        <FaPercent />
+                      </i>
+                    </span>
+                  </h3>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
-    );
+  );
 };
 
 export default Price_decrease;

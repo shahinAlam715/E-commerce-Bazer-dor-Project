@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaBarsStaggered } from "react-icons/fa6";
 
@@ -14,6 +15,8 @@ interface Navprops {
 const Navbar = () => {
   const [bar, setBar] = useState(false);
   const [categories, setCategories] = useState<Navprops[]>([]);
+
+  const pathname = usePathname();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -40,49 +43,59 @@ const Navbar = () => {
     setBar((prev) => !prev);
   };
 
+  const getLinkClass = (slug: string) => {
+    const isActive = pathname === `/category/${slug}`;
+
+    return `flex items-center gap-2 rounded-lg px-3 py-2 transition-colors duration-200 ${
+      isActive
+        ? "bg-green-500 text-white"
+        : "text-gray-700 hover:bg-green-100 hover:text-green-700"
+    }`;
+  };
+
   return (
-  
-    <div className="container mx-auto my-2 p-2">
+    <nav className="container mx-auto my-2 p-2">
       <button
         type="button"
-        className="my-4 block md:hidden"
+        className="my-4 block rounded-lg p-2 hover:bg-green-100 md:hidden"
         onClick={handlebar}
         aria-label="Toggle navigation menu"
         aria-expanded={bar}
       >
-        <FaBarsStaggered className="text-[24px]" />
+        <FaBarsStaggered className="text-2xl" />
       </button>
 
       {bar && (
-        <div className="flex flex-col gap-4 md:hidden">
+        <div className="flex flex-col gap-2 md:hidden">
           {categories.map((item) => (
             <Link
               href={`/category/${item.slug}`}
               key={item.id}
               onClick={() => setBar(false)}
-              className="flex items-center gap-2"
+              className={getLinkClass(item.slug)}
             >
-              <i className="text-[20px]">{item.icon}</i>
-              <h2 className="text-[24px]">{item.nameBn}</h2>
+              <span className="text-xl">{item.icon}</span>
+
+              <span className="text-lg">{item.nameBn}</span>
             </Link>
           ))}
         </div>
       )}
 
-      <div className="hidden items-center gap-4 md:flex">
+      <div className="hidden flex-wrap items-center gap-3 md:flex">
         {categories.map((item) => (
           <Link
             href={`/category/${item.slug}`}
             key={item.id}
-            className="flex items-center gap-2"
+            className={getLinkClass(item.slug)}
           >
-            <i className="text-[20px]">{item.icon}</i>
-            <h2 className="text-[24px]">{item.nameBn}</h2>
+            <span className="text-xl">{item.icon}</span>
+
+            <span className="text-lg">{item.nameBn}</span>
           </Link>
         ))}
       </div>
-    </div>
-   
+    </nav>
   );
 };
 
