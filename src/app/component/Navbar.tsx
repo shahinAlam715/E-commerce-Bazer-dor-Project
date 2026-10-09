@@ -57,7 +57,7 @@ const Navbar = () => {
         <div className="flex flex-col gap-4 md:hidden">
           {categories.map((item) => (
             <Link
-              href={item.slug}
+              href={`/category/${item.slug}`}
               key={item.id}
               onClick={() => setBar(false)}
               className="flex items-center gap-2"
@@ -72,7 +72,7 @@ const Navbar = () => {
       <div className="hidden items-center gap-4 md:flex">
         {categories.map((item) => (
           <Link
-            href={item.slug}
+            href={`/category/${item.slug}`}
             key={item.id}
             className="flex items-center gap-2"
           >
