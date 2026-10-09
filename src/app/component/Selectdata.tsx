@@ -59,55 +59,55 @@ const Selectdata = ({ item }: SelectdataProps) => {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {sortedData.map((up) => (
-             <Link href={`/details/${up.id}`} key={up.id}>
-          <div className="rounded-xl bg-white p-4">
-            <div className="flex items-center gap-4">
-              <div className="rounded-xl bg-gray-100 p-2">
-                <h2 className="text-[30px]">{up.image ?? up.categoryIcon}</h2>
+          <Link href={`/details/${up.id}`} key={up.id}>
+            <div className="rounded-xl bg-white p-4">
+              <div className="flex items-center gap-4">
+                <div className="rounded-xl bg-gray-100 p-2">
+                  <h2 className="text-[30px]">{up.image ?? up.categoryIcon}</h2>
+                </div>
+
+                <div>
+                  <h2 className="text-2xl">{up.nameBn}</h2>
+                  <p className="text-xl">
+                    প্রতি{" "}
+                    {up.unit === "kg"
+                      ? "কেজি"
+                      : up.unit === "litre"
+                        ? "লিটার"
+                        : up.unit === "piece"
+                          ? "পিস"
+                          : up.unit === "dozen"
+                            ? "ডজন"
+                            : up.unit}
+                  </p>
+                </div>
               </div>
 
-              <div>
-                <h2 className="text-2xl">{up.nameBn}</h2>
-                <p className="text-xl">
-                  প্রতি{" "}
-                  {up.unit === "kg"
-                    ? "কেজি"
-                    : up.unit === "litre"
-                      ? "লিটার"
-                      : up.unit === "piece"
-                        ? "পিস"
-                        : up.unit === "dozen"
-                          ? "ডজন"
-                          : up.unit}
-                </p>
+              <div className="mt-5 flex justify-between">
+                <div>
+                  <h2>আজকের দাম</h2>
+                  <h2>
+                    {up.today.toLocaleString("bn-BD")}
+                    <span className="mx-2">টাকা</span>
+                  </h2>
+                </div>
+
+                {up.change.dir === "up" ? (
+                  <div className="flex items-center text-red-500">
+                    <BiSolidUpArrow className="mx-2" />
+                    <span>{up.change.pct.toLocaleString("bn-BD")}</span>
+                    <FaPercent className="mx-2" />
+                  </div>
+                ) : (
+                  <div className="flex items-center text-green-500">
+                    <BiSolidDownArrow className="mx-2" />
+                    <span>{up.change.pct.toLocaleString("bn-BD")}</span>
+                    <FaPercent className="mx-2" />
+                  </div>
+                )}
               </div>
             </div>
-
-            <div className="mt-5 flex justify-between">
-              <div>
-                <h2>আজকের দাম</h2>
-                <h2>
-                  {up.today.toLocaleString("bn-BD")}
-                  <span className="mx-2">টাকা</span>
-                </h2>
-              </div>
-
-              {up.change.dir === "up" ? (
-                <div className="flex items-center text-red-500">
-                  <BiSolidUpArrow className="mx-2" />
-                  <span>{up.change.pct.toLocaleString("bn-BD")}</span>
-                  <FaPercent className="mx-2" />
-                </div>
-              ) : (
-                <div className="flex items-center text-green-500">
-                  <BiSolidDownArrow className="mx-2" />
-                  <span>{up.change.pct.toLocaleString("bn-BD")}</span>
-                  <FaPercent className="mx-2" />
-                </div>
-              )}
-            </div>
-          </div>
-             </Link>
+          </Link>
         ))}
       </div>
     </div>

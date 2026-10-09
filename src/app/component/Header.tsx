@@ -21,10 +21,14 @@ const Header = () => {
       </Link>
 
       <div className="flex gap-2">
+        <Link href={"/sign-in"}>
         <button className="h-8 w-20 sm:h-10 sm:w-30 text-black">সাইন ইন</button>
+        </Link>
+         <Link href={"/sign-up"}>
         <button className="bg-[#1A9951] h-8 w-20 sm:h-10 sm:w-30 text-white">
           সাইন আপ
         </button>
+         </Link>
       </div>
     </div>
   );
