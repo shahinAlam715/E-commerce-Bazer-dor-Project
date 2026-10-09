@@ -7,6 +7,7 @@ const Header = () => {
     })
 
     return (
+        
         <div className='container mx-auto flex justify-between py-4 px-2 items-center'>
             <div className="flex gap-2 items-center">
                 <div className="">
@@ -27,6 +28,7 @@ const Header = () => {
                 <button className='bg-[#1A9951] h-8 w-20 sm:h-10 sm:w-30 text-white'>সাইন আপ</button>
             </div>
         </div>
+       
     );
 };
 

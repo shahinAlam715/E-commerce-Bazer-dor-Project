@@ -41,6 +41,7 @@ const Navbar = () => {
   };
 
   return (
+  
     <div className="container mx-auto my-2 p-2">
       <button
         type="button"
@@ -81,6 +82,7 @@ const Navbar = () => {
         ))}
       </div>
     </div>
+   
   );
 };
 
