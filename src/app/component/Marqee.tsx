@@ -9,67 +9,78 @@ interface Marqeeprops {
   unit: string;
   nameBn: string;
   change: {
-    dir: string;
+    dir: "up" | "down" | "flat";
     pct: number;
   };
 }
 
+const unitBn: Record<string, string> = {
+  kg: "কেজি",
+  gram: "গ্রাম",
+  litre: "লিটার",
+  dozen: "ডজন",
+  piece: "পিস",
+};
+
 const Marqee = async () => {
   const res = await fetch(
-    "https://api.api-store.workers.dev/api/bazardor/products",
+    "https://api.api-store.workers.dev/api/bazardor/products"
   );
+
+
   const data: Marqeeprops[] = await res.json();
 
   return (
-    <>
-      <MarqueeText direction="right" duration={10}>
-        <div className="flex gap-5 items-center py-4 px-5 bg-white">
-          {data.map((item) => (
-            <div className="flex gap-2 items-center" key={item.id}>
-              <i>{item.categoryIcon}</i>
-              <h2 className="fle">{item.nameBn}</h2>
-              <h3>{item.today}</h3>
-              <h3>{item.unit}</h3>
-              <div className="">
-                {item.change.dir === "up" ? (
-                  <div className="flex gap-2 items-center">
-                    <h2 className="flex gap-1 text-green-500 items-center">
-                      <span className="text-[15px]">
-                        <BiSolidUpArrow />
-                      </span>
-                    </h2>
-                    <h2 className="flex gap-1 text-green-500 items-center">
-                      {item.change.pct}
-                      <span>
-                        <i>
-                          <FaPercent />
-                        </i>
-                      </span>
-                    </h2>
-                  </div>
-                ) : (
-                  <div className="flex gap-2 items-center">
-                    <h2 className="flex gap-1 text-red-500 items-center">
-                      <span className="text-[15px]">
-                        <BiSolidDownArrow />
-                      </span>
-                    </h2>
-                    <h2 className="flex gap-1 text-red-500 items-center">
-                      {item.change.pct}
-                      <span>
-                        <i>
-                          <FaPercent />
-                        </i>
-                      </span>
-                    </h2>
-                  </div>
-                )}
+    <MarqueeText direction="right" duration={10}>
+      <div className="flex items-center gap-5 bg-white px-5 py-4">
+        {data.map((item) => (
+          <div
+            className="flex shrink-0 items-center gap-2"
+            key={item.id}
+          >
+            <span>{item.categoryIcon}</span>
+
+            <h2 className="whitespace-nowrap">
+              {item.nameBn}
+            </h2>
+
+            <h3 className="whitespace-nowrap font-semibold">
+              {item.today.toLocaleString("bn-BD")}
+            </h3>
+
+            <h3 className="whitespace-nowrap">
+              {unitBn[item.unit] ?? item.unit}
+            </h3>
+
+            {item.change.dir === "up" ? (
+              <div className="flex items-center gap-1 text-green-500">
+                <BiSolidUpArrow />
+                <span>
+                  {item.change.pct.toLocaleString("bn-BD")}
+                </span>
+                <FaPercent />
               </div>
-            </div>
-          ))}
-        </div>
-      </MarqueeText>
-    </>
+            ) : item.change.dir === "down" ? (
+              <div className="flex items-center gap-1 text-red-500">
+                <BiSolidDownArrow />
+                <span>
+                  {item.change.pct.toLocaleString("bn-BD")}
+                </span>
+                <FaPercent />
+              </div>
+            ) : (
+              <div className="flex items-center gap-1 text-gray-500">
+                <span>—</span>
+                <span>
+                  {item.change.pct.toLocaleString("bn-BD")}
+                </span>
+                <FaPercent />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </MarqueeText>
   );
 };
 

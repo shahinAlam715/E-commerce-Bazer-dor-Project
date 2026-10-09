@@ -1,4 +1,4 @@
-import { BiSolidUpArrow } from "react-icons/bi";
+import { BiSolidDownArrow} from "react-icons/bi";
 import { FaPercent } from "react-icons/fa6";
 
 interface Marqeeprops {
@@ -14,21 +14,22 @@ interface Marqeeprops {
   };
 }
 
-const Price_increase = async () => {
-  const res = await fetch(
+const Price_decrease = async() => {
+
+     const res = await fetch(
     "https://api.api-store.workers.dev/api/bazardor/products",
   );
   const data: Marqeeprops[] = await res.json();
 
-  const filterIncresedata = data.filter((item) => item.change.dir === "up");
+  const filterIncresedata = data.filter((item) => item.change.dir === "down");
 
-  return (
-    <div className="container mx-auto p-2 my-5">
+    return (
+         <div className="container mx-auto p-2 my-5">
       <h2 className="flex items-center text-2xl font-bold my-5">
-        <span className="text-[15px] mx-2 text-red-500">
-          <BiSolidUpArrow />
+        <span className="text-[15px] mx-2 text-green-500">
+          <BiSolidDownArrow />
         </span>
-        আজ দাম বেড়েছে
+       আজ দাম কমেছে
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {filterIncresedata.slice(0, 6).map((up) => (
@@ -50,9 +51,9 @@ const Price_increase = async () => {
                 <span className="mx-2">টাকা</span>
                 </h2>
               </div>
-              <div className="flex items-center text-red-500">
+              <div className="flex items-center text-green-500">
                 <span className="text-[15px] mx-2">
-                  <BiSolidUpArrow />
+                  <BiSolidDownArrow />
                 </span>
                 <h3 className="flex items-center">
                   {up.change.pct.toLocaleString("bn-BD")}
@@ -68,7 +69,7 @@ const Price_increase = async () => {
         ))}
       </div>
     </div>
-  );
+    );
 };
 
-export default Price_increase;
+export default Price_decrease;
