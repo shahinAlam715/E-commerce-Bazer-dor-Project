@@ -12,7 +12,7 @@ const Banner = () => {
         <div className="container mx-auto bg-white px-4 py-4 my-4 rounded-xl">
             <div className="grid grid-cols-1  md:grid-cols-2 gap-4 items-center">
                 <div className="">
-                    <h5 className="bg-green-200 text-green-500 text-[14px] h-[28px] w-[174px] rounded-3xl text-center leading-[28px]">{date}</h5>
+                    <h5 className="bg-green-200 text-green-500 text-[14px] h-7 w-43.5 rounded-3xl text-center leading-7">{date}</h5>
                     <h2 className="text-4xl font-bold text-black mt-10">আজকের বাজারের দাম এক নজরে</h2>
                     <p className="text-xl font-medium text-black mt-10">চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক বিস্তারিত, গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।</p>
 

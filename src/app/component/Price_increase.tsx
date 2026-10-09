@@ -1,0 +1,75 @@
+import Image from "next/image";
+import { BiSolidUpArrow } from "react-icons/bi";
+import { FaPercent } from "react-icons/fa6";
+
+interface Marqeeprops {
+  id: number;
+  categoryIcon: string;
+  today: number;
+  unit: string;
+  nameBn: string;
+  image: string;
+  change: {
+    dir: string;
+    pct: number;
+  };
+}
+
+const Price_increase = async () => {
+  const res = await fetch(
+    "https://api.api-store.workers.dev/api/bazardor/products",
+  );
+  const data: Marqeeprops[] = await res.json();
+
+  const filterIncresedata = data.filter((item) => item.change.dir === "up");
+
+  return (
+    <div className="container mx-auto p-2 my-5">
+      <h2 className="flex items-center text-2xl font-bold my-5">
+        <span className="text-[15px] mx-2 text-red-500">
+          <BiSolidUpArrow />
+        </span>
+        আজ দাম বেড়েছে
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {filterIncresedata.slice(0, 6).map((up) => (
+          <div className="bg-white p-4 rounded-xl" key={up.id}>
+            <div className="flex gap-4 items-center">
+              <div className="bg-gray-100 p-2 rounded-xl">
+                <h2 className="text-[30px]">{up.image}</h2>
+              </div>
+              <div className="">
+                <h2 className="text-2xl">{up.nameBn}</h2>
+                <p className="text-xl">প্রতি কেজি</p>
+              </div>
+            </div>
+            <div className="mt-5 flex justify-between">
+              <div className="">
+                <h2>আজকের দাম</h2>
+                <h2 className="">
+                  {up.today.toLocaleString("bn-BD")}
+                <span className="mx-2">টাকা</span>
+                </h2>
+              </div>
+              <div className="flex items-center text-red-500">
+                <span className="text-[15px] mx-2">
+                  <BiSolidUpArrow />
+                </span>
+                <h3 className="flex items-center">
+                  {up.change.pct.toLocaleString("bn-BD")}
+                  <span className="mx-2">
+                    <i>
+                      <FaPercent />
+                    </i>
+                  </span>
+                </h3>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Price_increase;
