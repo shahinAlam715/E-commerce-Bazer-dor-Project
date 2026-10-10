@@ -19,10 +19,20 @@ import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 
 const SignUpPage = () => {
-  // Email signup
-  const handleSubmit = async (e: React.SubmitEvent<HTMLElement>)=>{
-    const formdata = new FormData(e.target);
-    const user = Object.fromEntries(formdata.entries()) as {name: string, image: string, email: string, password: string};
+ 
+  const handleSubmit: React.ComponentProps<typeof Form>["onSubmit"] =
+  async (e) => {
+    e.preventDefault();
+
+    const formdata = new FormData(e.currentTarget);
+
+    const user = Object.fromEntries(formdata.entries()) as {
+      name: string;
+      image: string;
+      email: string;
+      password: string;
+    };
+
     console.log(user);
 
     const { data, error } = await authClient.signUp.email({
@@ -44,11 +54,24 @@ const SignUpPage = () => {
      const data = await authClient.signIn.social({
     provider: "google",
   });
+
+   if (data) {
+            toast.success("Sign In Successfull !")
+            redirect("/")
+        }
+        
+
   }
   const handlegithub = async()=>{
      const data = await authClient.signIn.social({
     provider: "github",
   });
+
+   if (data) {
+            toast.success("Sign In Successfull !")
+            redirect("/")
+        }
+
   }
 
   return (
@@ -66,7 +89,7 @@ const SignUpPage = () => {
           className="flex w-full max-w-sm flex-col gap-4 rounded-xl bg-white p-8 shadow-lg"
           onSubmit={handleSubmit}
         >
-          {/* Name */}
+         
           <TextField isRequired name="name">
             <Label>নাম</Label>
             <Input
@@ -76,7 +99,7 @@ const SignUpPage = () => {
             <FieldError />
           </TextField>
 
-          {/* Email */}
+         
           <TextField
             isRequired
             name="email"
@@ -97,7 +120,7 @@ const SignUpPage = () => {
             <FieldError />
           </TextField>
 
-          {/* Password */}
+          
           <TextField
             isRequired
             name="password"
@@ -122,7 +145,7 @@ const SignUpPage = () => {
             <FieldError />
           </TextField>
 
-          {/* Confirm Password */}
+          
           <TextField
             isRequired
             name="confirmPassword"
@@ -147,7 +170,7 @@ const SignUpPage = () => {
             <FieldError />
           </TextField>
 
-          {/* Submit Button */}
+          
           <Button
             type="submit"
             className="w-full bg-green-700 text-white"
@@ -156,7 +179,7 @@ const SignUpPage = () => {
           </Button>
         </Form>
 
-        {/* Social Authentication */}
+        
         <div className="my-4 w-full max-w-sm rounded-2xl bg-white p-4">
           <div className="flex flex-wrap justify-center gap-4">
             <button
@@ -194,7 +217,7 @@ const SignUpPage = () => {
         </div>
       </div>
 
-      {/* Back to Home */}
+      
       <Link href="/">
         <p className="text-center text-xl text-gray-500 hover:text-green-700">
           ← হোম পেজে ফিরে যান

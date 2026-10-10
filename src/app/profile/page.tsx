@@ -30,13 +30,19 @@ const Profile = () => {
       ...updateUser,
     });
 
-    if (error) {
-      console.error("Update failed:", error.message);
-      return;
-    }
+    if (data) {
+                toast.success("User update Successfull !")
+            }
+            if (error) {
+                toast.error("Something went Rong !")
+            }
 
-    toast.success("User updated Successful!");
+    
   };
+
+  
+
+  
 
   return (
     <div className="container mx-auto my-16">
@@ -52,7 +58,7 @@ const Profile = () => {
             <div>
               <div className="flex items-center gap-3">
                 <div className="">
-                  <div className="h-[100px] w-[100px] overflow-hidden rounded-full">
+                  <div className="h-25 w-25 overflow-hidden rounded-full">
                     <Image
                       src={
                         user?.image ||

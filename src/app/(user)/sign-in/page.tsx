@@ -19,15 +19,25 @@ import toast from "react-hot-toast";
 
 const SignInPage = () => {
 
-  const handleSubmit = async (e: React.SubmitEvent<HTMLElement>)=>{
-        const formdata = new FormData(e.target);
-        const user = Object.fromEntries(formdata.entries()) as {name: string, image: string, email: string, password: string};
-        console.log(user);
-    
-        const { data, error } = await authClient.signIn.email({
-          ...user,
-          callbackURL: "/",
-        });
+  const handleSubmit: React.ComponentProps<typeof Form>["onSubmit"] =
+  async (e) => {
+    e.preventDefault();
+
+    const formdata = new FormData(e.currentTarget);
+
+    const user = Object.fromEntries(formdata.entries()) as {
+      name: string;
+      image: string;
+      email: string;
+      password: string;
+    };
+
+    console.log(user);
+
+    const { data, error } = await authClient.signIn.email({
+      ...user,
+      callbackURL: "/",
+    });
     
         if (data) {
             toast.success("Sign In Successfull !")
@@ -43,11 +53,21 @@ const SignInPage = () => {
       const data = await authClient.signIn.social({
      provider: "google",
    });
+
+    if (data) {
+            toast.success("Sign In Successfull !")
+        }
+
    }
    const handlegithub = async()=>{
       const data = await authClient.signIn.social({
      provider: "github",
    });
+
+    if (data) {
+            toast.success("Sign In Successfull !")
+        }
+
    }
 
   return (
