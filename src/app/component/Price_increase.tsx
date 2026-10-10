@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { BiSolidUpArrow } from "react-icons/bi";
 import { FaPercent } from "react-icons/fa6";
 
-interface Marqeeprops {
+interface Increseprops {
   id: number;
   categoryIcon: string;
   today: number;
@@ -18,13 +18,30 @@ interface Marqeeprops {
 
 const Price_increase = async () => {
   const res = await fetch(
-    "https://api.api-store.workers.dev/api/bazardor/products",
+    "https://api.abcz.workers.dev/api/bazardor/products",
+    {
+      cache: "no-store",
+    },
   );
-  const data: Marqeeprops[] = await res.json();
 
-  const filterIncresedata = data.filter((item) => item.change.dir === "up");
+  if (!res.ok) {
+    throw new Error(`API request failed: ${res.status}`);
+  }
 
-  if (!filterIncresedata) {
+  const contentType = res.headers.get("content-type");
+
+  if (!contentType?.includes("application/json")) {
+    throw new Error("API থেকে JSON-এর পরিবর্তে HTML এসেছে।");
+  }
+
+  const data: Increseprops[] = await res.json();
+
+  const filterIncresedata = data
+    .filter((item) => item.change.dir === "up")
+    .sort((a, b) => Math.abs(b.change.pct) - Math.abs(a.change.pct))
+    .slice(0, 6);
+
+  if (filterIncresedata.length === 0) {
     notFound();
   }
 
@@ -36,19 +53,22 @@ const Price_increase = async () => {
         </span>
         আজ দাম বেড়েছে
       </h2>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {filterIncresedata.slice(0, 6).map((up) => (
+        {filterIncresedata.map((up) => (
           <Link href={`/details/${up.id}`} key={up.id}>
             <div className="bg-white p-4 rounded-xl">
               <div className="flex gap-4 items-center">
                 <div className="bg-gray-100 p-2 rounded-xl">
                   <h2 className="text-[30px]">{up.image}</h2>
                 </div>
+
                 <div className="">
                   <h2 className="text-2xl">{up.nameBn}</h2>
                   <p className="text-xl">প্রতি কেজি</p>
                 </div>
               </div>
+
               <div className="mt-5 flex justify-between">
                 <div className="">
                   <h2>আজকের দাম</h2>
@@ -57,10 +77,12 @@ const Price_increase = async () => {
                     <span className="mx-2">টাকা</span>
                   </h2>
                 </div>
+
                 <div className="flex items-center text-red-500">
                   <span className="text-[15px] mx-2">
                     <BiSolidUpArrow />
                   </span>
+
                   <h3 className="flex items-center">
                     {up.change.pct.toLocaleString("bn-BD")}
                     <span className="mx-2">

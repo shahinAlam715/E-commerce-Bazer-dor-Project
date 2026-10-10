@@ -17,9 +17,7 @@ interface Marqeeprops {
 }
 
 const Allproduct = async () => {
-  const res = await fetch(
-    "https://api.api-store.workers.dev/api/bazardor/products",
-  );
+  const res = await fetch("https://api.abcz.workers.dev/api/bazardor/products");
   const data: Marqeeprops[] = await res.json();
 
   if (!data) {
@@ -59,26 +57,33 @@ const Allproduct = async () => {
                     <span className="text-[15px] mx-2">
                       <BiSolidUpArrow />
                     </span>
+
                     <h3 className="flex items-center">
                       {up.change.pct.toLocaleString("bn-BD")}
                       <span className="mx-2">
-                        <i>
-                          <FaPercent />
-                        </i>
+                        <FaPercent />
                       </span>
                     </h3>
                   </div>
-                ) : (
+                ) : up.change.dir === "down" ? (
                   <div className="flex items-center text-green-500">
                     <span className="text-[15px] mx-2">
                       <BiSolidDownArrow />
                     </span>
+
                     <h3 className="flex items-center">
                       {up.change.pct.toLocaleString("bn-BD")}
                       <span className="mx-2">
-                        <i>
-                          <FaPercent />
-                        </i>
+                        <FaPercent />
+                      </span>
+                    </h3>
+                  </div>
+                ) : (
+                  <div className="flex items-center text-gray-500">
+                    <h3 className="flex items-center">
+                      {up.change.pct.toLocaleString("bn-BD")}
+                      <span className="mx-2">
+                        <FaPercent />
                       </span>
                     </h3>
                   </div>

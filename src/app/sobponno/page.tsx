@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BiSolidDownArrow } from "react-icons/bi";
+import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
 import { FaPercent } from "react-icons/fa6";
 
 interface Marqeeprops {
@@ -15,30 +15,22 @@ interface Marqeeprops {
     pct: number;
   };
 }
-
-const Price_decrease = async () => {
+const SobponnoPage = async () => {
   const res = await fetch("https://api.abcz.workers.dev/api/bazardor/products");
   const data: Marqeeprops[] = await res.json();
 
-  const filterDecresedata = data
-    .filter((item) => item.change.dir === "down")
-    .sort((a, b) => Math.abs(b.change.pct) - Math.abs(a.change.pct))
-    .slice(0, 6);
-
-  if (!filterDecresedata) {
+  if (!data) {
     notFound();
   }
 
   return (
     <div className="container mx-auto p-2 my-5">
-      <h2 className="flex items-center text-2xl font-bold my-5">
-        <span className="text-[15px] mx-2 text-green-500">
-          <BiSolidDownArrow />
-        </span>
-        আজ দাম কমেছে
-      </h2>
+      <h2 className="text-2xl font-bold mt-5">সব পণ্য</h2>
+      <p className="text-xl font-medium my-5">
+        মোট {data.length.toLocaleString("bn-BD")}টি পণ্য দেখানো হচ্ছে
+      </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {filterDecresedata.map((up) => (
+        {data.map((up) => (
           <Link href={`/details/${up.id}`} key={up.id}>
             <div className="bg-white p-4 rounded-xl">
               <div className="flex gap-4 items-center">
@@ -58,19 +50,36 @@ const Price_decrease = async () => {
                     <span className="mx-2">টাকা</span>
                   </h2>
                 </div>
-                <div className="flex items-center text-green-500">
-                  <span className="text-[15px] mx-2">
-                    <BiSolidDownArrow />
-                  </span>
-                  <h3 className="flex items-center">
-                    {up.change.pct.toLocaleString("bn-BD")}
-                    <span className="mx-2">
-                      <i>
-                        <FaPercent />
-                      </i>
+
+                {up.change.dir === "up" ? (
+                  <div className="flex items-center text-red-500">
+                    <span className="text-[15px] mx-2">
+                      <BiSolidUpArrow />
                     </span>
-                  </h3>
-                </div>
+                    <h3 className="flex items-center">
+                      {up.change.pct.toLocaleString("bn-BD")}
+                      <span className="mx-2">
+                        <i>
+                          <FaPercent />
+                        </i>
+                      </span>
+                    </h3>
+                  </div>
+                ) : (
+                  <div className="flex items-center text-green-500">
+                    <span className="text-[15px] mx-2">
+                      <BiSolidDownArrow />
+                    </span>
+                    <h3 className="flex items-center">
+                      {up.change.pct.toLocaleString("bn-BD")}
+                      <span className="mx-2">
+                        <i>
+                          <FaPercent />
+                        </i>
+                      </span>
+                    </h3>
+                  </div>
+                )}
               </div>
             </div>
           </Link>
@@ -80,4 +89,4 @@ const Price_decrease = async () => {
   );
 };
 
-export default Price_decrease;
+export default SobponnoPage;

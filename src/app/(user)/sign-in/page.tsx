@@ -15,6 +15,7 @@ import { authClient } from "@/lib/auth-client";
 import { FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 const SignInPage = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,16 +35,13 @@ const SignInPage = () => {
       });
 
       if (error) {
-        console.error("Sign-in error:", error);
-        alert(error.message || "ইমেইল অথবা পাসওয়ার্ড সঠিক নয়");
+        toast.error("ইমেইল অথবা পাসওয়ার্ড সঠিক নয়");
         return;
       }
 
-      console.log("Sign-in successful:", data);
-      // Better Auth handles the callback redirect.
+      toast.success("Sign In Successful!");
     } catch (err) {
-      console.error("Unexpected sign-in error:", err);
-      alert("সাইন ইন করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+      toast.error("সাইন ইন করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
     }
   };
 
@@ -55,13 +53,12 @@ const SignInPage = () => {
       });
 
       if (error) {
-        console.error("Google sign-in error:", error);
-        alert(error.message || "Google দিয়ে সাইন ইন করা যায়নি");
+        toast.error("Google দিয়ে লগইন করা যায়নি");
       }
     } catch (err) {
-      console.error("Unexpected Google error:", err);
-      alert("Google login-এ সমস্যা হয়েছে");
+      toast.error("Google login-এ সমস্যা হয়েছে");
     }
+    toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
   };
 
   const handleGithub = async () => {
@@ -72,26 +69,23 @@ const SignInPage = () => {
       });
 
       if (error) {
-        console.error("GitHub sign-in error:", error);
-        alert(error.message || "GitHub দিয়ে সাইন ইন করা যায়নি");
+        toast.error("GitHub দিয়ে লগইন করা যায়নি");
       }
     } catch (err) {
-      console.error("Unexpected GitHub error:", err);
-      alert("GitHub login-এ সমস্যা হয়েছে");
+      toast.error("GitHub login-এ সমস্যা হয়েছে");
     }
+
+    toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
   };
 
   return (
-    <div className="my-16">
-      <h2 className="text-3xl font-bold text-black text-center">
-        সাইন ইন
-      </h2>
-
-      <p className="text-xl font-bold text-black my-4 text-center px-4">
+    <div className="my-16 container mx-auto p-2">
+      <h2 className="text-3xl font-bold text-black text-center">সাইন ইন</h2>
+      <p className="text-xl font-bold text-black text-center my-4 px-4">
         বিস্তারিত দাম, বাজার তুলনা ও প্রোফাইল দেখতে অ্যাকাউন্টে ঢুকুন।
       </p>
 
-      <div className="flex flex-col min-h-screen items-center justify-center bg-gray-100 p-4">
+      <div className="flex flex-col  items-center justify-center bg-gray-100 p-4">
         <Form
           className="flex w-full max-w-sm flex-col gap-4 rounded-xl bg-white p-8 shadow-lg"
           onSubmit={onSubmit}
@@ -109,10 +103,7 @@ const SignInPage = () => {
             }}
           >
             <Label>ইমেইল</Label>
-            <Input
-              placeholder="you@example.com"
-              autoComplete="email"
-            />
+            <Input placeholder="you@example.com" autoComplete="email" />
             <FieldError />
           </TextField>
 
@@ -134,17 +125,12 @@ const SignInPage = () => {
               placeholder="কমপক্ষে ৮ অক্ষর"
               autoComplete="current-password"
             />
-            <Description>
-              Must be at least 8 characters
-            </Description>
+            <Description>Must be at least 8 characters</Description>
             <FieldError />
           </TextField>
 
           <div className="flex gap-2">
-            <Button
-              type="submit"
-              className="w-full bg-green-700 text-white"
-            >
+            <Button type="submit" className="w-full bg-green-700 text-white">
               সাইন ইন
             </Button>
           </div>
@@ -183,6 +169,9 @@ const SignInPage = () => {
           </p>
         </div>
       </div>
+      <Link href={"/"}>
+        <p className="text-xl text-gray-500 text-center">← হোম পেজে ফিরে যান</p>
+      </Link>
     </div>
   );
 };

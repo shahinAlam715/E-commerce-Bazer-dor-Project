@@ -21,8 +21,7 @@ const Header = () => {
         </div>
       </Link>
 
-      <Sesstion/>
-
+      <Sesstion />
     </div>
   );
 };

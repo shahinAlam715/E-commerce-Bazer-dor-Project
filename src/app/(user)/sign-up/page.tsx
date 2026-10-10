@@ -15,6 +15,7 @@ import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa6";
+import toast from "react-hot-toast";
 
 const SignUpPage = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,25 +27,20 @@ const SignUpPage = () => {
     const name = String(formData.get("name") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
     const password = String(formData.get("password") ?? "");
-    const confirmPassword = String(
-      formData.get("confirmPassword") ?? ""
-    );
+    const confirmPassword = String(formData.get("confirmPassword") ?? "");
 
-    
     if (!name) {
-      alert("আপনার নাম লিখুন");
+      toast.error("আপনার নাম লিখুন");
       return;
     }
 
-    
     if (password !== confirmPassword) {
-      alert("দুটি পাসওয়ার্ড মিলছে না");
+      toast.error("দুটি পাসওয়ার্ড মিলছে না");
       return;
     }
 
-   
     if (password.length < 8) {
-      alert("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে");
+      toast.error("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে");
       return;
     }
 
@@ -57,19 +53,15 @@ const SignUpPage = () => {
       });
 
       if (error) {
-        console.error("Signup error:", error);
-        alert(error.message || "অ্যাকাউন্ট তৈরি করা যায়নি");
+        toast.error("অ্যাকাউন্ট তৈরি করা যায়নি");
         return;
       }
 
-      console.log("Signup success:", data);
-      alert("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
+      toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
 
-      
       form.reset();
     } catch (err) {
-      console.error("Unexpected signup error:", err);
-      alert("সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+      toast.error("সমস্যা হয়েছে। আবার চেষ্টা করুন।");
     }
   };
 
@@ -81,13 +73,12 @@ const SignUpPage = () => {
       });
 
       if (error) {
-        console.error("Google login error:", error);
-        alert(error.message || "Google দিয়ে লগইন করা যায়নি");
+        toast.error("Google দিয়ে লগইন করা যায়নি");
       }
     } catch (err) {
-      console.error("Unexpected Google error:", err);
-      alert("Google login-এ সমস্যা হয়েছে");
+      toast.error("Google login-এ সমস্যা হয়েছে");
     }
+    toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
   };
 
   const handleGithub = async () => {
@@ -98,20 +89,17 @@ const SignUpPage = () => {
       });
 
       if (error) {
-        console.error("GitHub login error:", error);
-        alert(error.message || "GitHub দিয়ে লগইন করা যায়নি");
+        toast.error("GitHub দিয়ে লগইন করা যায়নি");
       }
     } catch (err) {
-      console.error("Unexpected GitHub error:", err);
-      alert("GitHub login-এ সমস্যা হয়েছে");
+      toast.error("GitHub login-এ সমস্যা হয়েছে");
     }
 
-
-    
+    toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
   };
 
   return (
-    <div className="my-16">
+    <div className="my-16 container mx-auto">
       <h2 className="text-3xl font-bold text-black text-center">
         অ্যাকাউন্ট তৈরি করুন
       </h2>
@@ -127,10 +115,7 @@ const SignUpPage = () => {
         >
           <TextField isRequired name="name">
             <Label>নাম</Label>
-            <Input
-              placeholder="যেমন: রহিম উদ্দিন"
-              autoComplete="name"
-            />
+            <Input placeholder="যেমন: রহিম উদ্দিন" autoComplete="name" />
             <FieldError />
           </TextField>
 
@@ -147,10 +132,7 @@ const SignUpPage = () => {
             }}
           >
             <Label>ইমেইল</Label>
-            <Input
-              placeholder="you@example.com"
-              autoComplete="email"
-            />
+            <Input placeholder="you@example.com" autoComplete="email" />
             <FieldError />
           </TextField>
 
@@ -168,13 +150,8 @@ const SignUpPage = () => {
             }}
           >
             <Label>পাসওয়ার্ড</Label>
-            <Input
-              placeholder="কমপক্ষে ৮ অক্ষর"
-              autoComplete="new-password"
-            />
-            <Description>
-              Must be at least 8 characters
-            </Description>
+            <Input placeholder="কমপক্ষে ৮ অক্ষর" autoComplete="new-password" />
+            <Description>Must be at least 8 characters</Description>
             <FieldError />
           </TextField>
 
@@ -192,13 +169,8 @@ const SignUpPage = () => {
             }}
           >
             <Label>পাসওয়ার্ড নিশ্চিত করুন</Label>
-            <Input
-              placeholder="আবার লিখুন"
-              autoComplete="new-password"
-            />
-            <Description>
-              Must match your password
-            </Description>
+            <Input placeholder="আবার লিখুন" autoComplete="new-password" />
+            <Description>Must match your password</Description>
             <FieldError />
           </TextField>
 
@@ -242,6 +214,10 @@ const SignUpPage = () => {
           </p>
         </div>
       </div>
+
+      <Link href={"/"}>
+        <p className="text-xl text-gray-500 text-center">← হোম পেজে ফিরে যান</p>
+      </Link>
     </div>
   );
 };

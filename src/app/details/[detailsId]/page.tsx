@@ -33,7 +33,7 @@ const DetailsPage = async ({ params }: { params: { detailsId: string } }) => {
   const { detailsId } = await params;
 
   const res = await fetch(
-    `https://api.api-store.workers.dev/api/bazardor/products/${detailsId}`,
+    `https://api.abcz.workers.dev/api/bazardor/products/${detailsId}`,
   );
   const data: Product = await res.json();
 
@@ -165,7 +165,7 @@ const DetailsPage = async ({ params }: { params: { detailsId: string } }) => {
         </div>
 
         <div className="">
-          <h2 className="text-3xl font-bold">বাজারভিত্তিক আজকের দাম</h2>
+          <h2 className="text-3xl font-bol my-4">বাজারভিত্তিক আজকের দাম</h2>
           <div className="w-full overflow-x-auto rounded-xl">
             <table className="table w-full min-w-162.5">
               <thead>

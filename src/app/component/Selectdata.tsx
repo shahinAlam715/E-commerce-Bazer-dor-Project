@@ -44,7 +44,7 @@ const Selectdata = ({ item }: SelectdataProps) => {
 
         <select
           value={selectData}
-          className="select select-accent"
+          className="select select-accent p-2"
           onChange={(e) => setSelectData(e.target.value)}
         >
           <option value="ডিফল্ট">ডিফল্ট</option>
