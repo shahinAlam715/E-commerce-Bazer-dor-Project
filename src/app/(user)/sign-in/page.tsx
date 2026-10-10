@@ -13,22 +13,26 @@ import {
 
 import { authClient } from "@/lib/auth-client";
 const SignInPage = () => {
-  const onSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data: Record<string, string> = Object.fromEntries(formData.entries());
-    console.log(data);
 
-    const { data: resdata, error } = await authClient.signIn.email({
-        email: data.email,
-        password: data.password, 
-        callbackURL: "/" 
-    })
+const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
+  const formData = new FormData(e.currentTarget);
 
-   
-   
+  const data: Record<string, string> = {
+    email: String(formData.get("email") ?? ""),
+    password: String(formData.get("password") ?? ""),
   };
+
+  console.log(data);
+
+  const { data: resdata, error } = await authClient.signIn.email({
+    email: data.email,
+    password: data.password,
+    callbackURL: "/",
+  });
+};
+
 
   return (
     <div>
