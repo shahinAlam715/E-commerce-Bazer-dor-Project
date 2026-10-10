@@ -51,17 +51,17 @@ const Profile = () => {
           <div className="flex items-center gap-4">
             <div>
               <div className="flex items-center gap-3">
-                <div className="avatar">
-                  <div className="h-24 w-24 overflow-hidden rounded-full">
+                <div className="">
+                  <div className="h-[100px] w-[100px] overflow-hidden rounded-full">
                     <Image
                       src={
                         user?.image ||
                         "https://img.daisyui.com/images/profile/demo/batperson@192.webp"
                       }
                       alt="User Avatar"
-                      height={60}
-                      width={60}
-                      className="h-full w-full object-cover"
+                      height={100}
+                      width={100}
+                      className="h-full w-full rounded-full object-cover"
                     />
                   </div>
                 </div>
@@ -77,7 +77,7 @@ const Profile = () => {
           <div>
             <button
               type="button"
-              className="border-red-500 px-4 py-2 text-red-500"
+              className="border-2 border-red-500 px-4 py-2 text-red-500 mt-5"
               onClick={handlesignOut}
             >
               ↩ সাইন আউট
