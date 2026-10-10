@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Sesstion from "./Sesstion";
 
 const Header = () => {
   const date = new Date().toLocaleDateString("bn-BD", {
@@ -20,16 +21,8 @@ const Header = () => {
         </div>
       </Link>
 
-      <div className="flex gap-2">
-        <Link href={"/sign-in"}>
-        <button className="h-8 w-20 sm:h-10 sm:w-30 text-black">সাইন ইন</button>
-        </Link>
-         <Link href={"/sign-up"}>
-        <button className="bg-[#1A9951] h-8 w-20 sm:h-10 sm:w-30 text-white">
-          সাইন আপ
-        </button>
-         </Link>
-      </div>
+      <Sesstion/>
+
     </div>
   );
 };

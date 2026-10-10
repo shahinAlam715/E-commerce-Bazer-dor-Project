@@ -30,19 +30,19 @@ const SignUpPage = () => {
       formData.get("confirmPassword") ?? ""
     );
 
-    // Validate name
+    
     if (!name) {
       alert("আপনার নাম লিখুন");
       return;
     }
 
-    // Validate password match
+    
     if (password !== confirmPassword) {
       alert("দুটি পাসওয়ার্ড মিলছে না");
       return;
     }
 
-    // Validate password length
+   
     if (password.length < 8) {
       alert("পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে");
       return;
@@ -65,7 +65,7 @@ const SignUpPage = () => {
       console.log("Signup success:", data);
       alert("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
 
-      // Clear form after successful signup
+      
       form.reset();
     } catch (err) {
       console.error("Unexpected signup error:", err);
@@ -105,6 +105,9 @@ const SignUpPage = () => {
       console.error("Unexpected GitHub error:", err);
       alert("GitHub login-এ সমস্যা হয়েছে");
     }
+
+
+    
   };
 
   return (
